@@ -20,9 +20,16 @@ cask "gpconnect" do
   # Before the payload is removed, while the app is still there to do it: SMAppService
   # unregistration can only be performed by the bundle that registered the service. Delete
   # the app first and the LaunchDaemon stays registered, pointing at nothing.
+  #
+  # Best-effort (`|| true`), deliberately: a preflight failure blocks the whole uninstall
+  # — and an upgrade, which is an uninstall in disguise — and a helper that could not be
+  # unregistered is not something keeping the app installed can fix. Binaries before 1.4.5
+  # also exited 1 here whenever the service manager threw its spurious "Socket is not
+  # connected", which walled every one of their upgrades until this stopped being fatal.
   uninstall_preflight_steps do
     if_path_exists "/Applications/gpconnect.app/Contents/MacOS/gpconnect" do
-      run "/Applications/gpconnect.app/Contents/MacOS/gpconnect", args: ["--unregister-helper"]
+      run "/bin/sh", args: ["-c",
+        "/Applications/gpconnect.app/Contents/MacOS/gpconnect --unregister-helper || true"]
     end
   end
 
