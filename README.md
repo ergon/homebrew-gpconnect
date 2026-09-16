@@ -25,13 +25,16 @@ brew update && brew upgrade --cask gpconnect
 
 ## Switching from the old (stash) tap
 
-One command, and not `brew untap` + `brew tap` — brew uninstalls a tap's
-casks on untap, which would take the installed app with it. This keeps the
-tap name, the recorded trust and the installed cask; the next `brew update`
-simply pulls from GitHub:
+Two commands, and not `brew untap` + `brew tap` — brew uninstalls a tap's
+casks on untap, which would take the installed app with it. Retargeting the
+remote keeps the tap name and the installed cask; the next `brew update`
+simply pulls from GitHub. Changing the remote does invalidate the tap's
+recorded trust — reasonably, since the content source moved — so brew asks
+for it once more:
 
 ```sh
 brew tap --custom-remote ergon/gpconnect https://github.com/ergon/homebrew-gpconnect
+brew trust --cask ergon/gpconnect/gpconnect
 ```
 
 ## If an upgrade fails
