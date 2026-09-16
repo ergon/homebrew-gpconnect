@@ -44,10 +44,9 @@ cask "gpconnect" do
     If an upgrade of gpconnect ever aborts with "--unregister-helper exited
     with 1": your previous install recorded a cask (1.4.4, or 1.4.5 on its
     first day) whose uninstall preflight treats that spurious failure as
-    fatal, and brew runs the recorded copy rather than this one. Repair the
-    record once — it is a no-op if yours is healthy — then upgrade again:
+    fatal, and brew runs the recorded copy rather than this one. The one-time
+    repair — a no-op if yours is healthy — is here:
 
-        RB="$(find "$(brew --prefix)/Caskroom/gpconnect/.metadata" -name gpconnect.rb)"
-        /usr/bin/sed -i '' -e '/^  uninstall_preflight_steps do$/,/^  end$/d' -e '/^  uninstall_preflight do$/,/^  end$/d' $RB
+        https://github.com/ergon/homebrew-gpconnect#if-an-upgrade-fails
   TEXT
 end
