@@ -1,6 +1,6 @@
 cask "gpconnect" do
-  version "1.4.5,1"
-  sha256 "919798bddd5663671b36a1f7fb061b7d2086bc5241c073e5c90a97c49091459a"
+  version "1.4.5,2"
+  sha256 "2eb8d3842c50e35c2aa4f39d451a98c97672788a3e4ac2db1e663e6817f1848b"
 
   url "https://github.com/ergon/homebrew-gpconnect/releases/download/v#{version.csv.first}.#{version.csv.second}/gpconnect-#{version.csv.first}.pkg"
   name "gpconnect"
