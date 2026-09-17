@@ -25,16 +25,30 @@ brew update && brew upgrade --cask gpconnect
 
 ## Switching from the old (stash) tap
 
-Two commands, and not `brew untap` + `brew tap` — brew uninstalls a tap's
-casks on untap, which would take the installed app with it. Retargeting the
-remote keeps the tap name and the installed cask; the next `brew update`
-simply pulls from GitHub. Changing the remote does invalidate the tap's
-recorded trust — reasonably, since the content source moved — so brew asks
-for it once more:
+One line. The script retargets the tap in place — nothing is uninstalled, the
+VPN stays up, and the app, settings and stored password are untouched. It is
+safe to re-run, and it repairs the states earlier switch attempts got stuck
+in (a jammed rebase, stale stashes, revoked trust):
 
 ```sh
-brew tap --custom-remote ergon/gpconnect https://github.com/ergon/homebrew-gpconnect
+curl -fsSL https://raw.githubusercontent.com/ergon/homebrew-gpconnect/main/migrate.sh | bash
+```
+
+Prefer to read before running? [migrate.sh](migrate.sh) is short and lives in
+this repository.
+
+**Script-free alternative**, plain brew, at the cost of an uninstall/reinstall
+(the VPN drops during it, and the helper usually needs re-approval in Login
+Items afterwards). **The upgrade must come first**: the untap uninstalls the
+app using the cask recorded at its last install, and only 1.4.5 build 2 or
+later is guaranteed to pass that step.
+
+```sh
+brew update && brew upgrade --cask gpconnect
+brew untap ergon/gpconnect     # answer yes to uninstalling gpconnect
+brew tap ergon/gpconnect
 brew trust --cask ergon/gpconnect/gpconnect
+brew install --cask gpconnect
 ```
 
 ## If an upgrade fails
